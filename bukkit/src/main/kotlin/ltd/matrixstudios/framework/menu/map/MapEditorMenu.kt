@@ -20,7 +20,7 @@ class MapEditorMenu(var opener: Player) : PaginatedMenu(18, opener) {
                 "&a${map.displayName}",
                 arrayListOf()).setAction {
                     player, i, clickType ->
-                MapEditorSettingsMenu(player, map).openMenu()
+                MapEditorSettingsMenu(player, map).updateMenu()
             }
         }
 

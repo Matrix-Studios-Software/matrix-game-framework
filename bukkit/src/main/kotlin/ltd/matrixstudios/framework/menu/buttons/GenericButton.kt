@@ -40,8 +40,6 @@ class GenericButton(
     override fun onClick(player: Player, slot: Int, type: ClickType) {
         if (onClick != null) {
             onClick.invoke(player, slot, type)
-        } else {
-            return
         }
     }
 }

@@ -18,9 +18,10 @@ abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>)
             val parsed = Document.parse(Serializers.serialize(value))
 
             internalCollection.updateOne(
-                Filters.eq("_id",
+                Filters.eq(
+                    "_id",
                     key
-                ), parsed, UpdateOptions().upsert(true)
+                ), Document("\$set", parsed), UpdateOptions().upsert(true)
             )
         }
     }
@@ -28,13 +29,11 @@ abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>)
     override fun findAll(): List<T> {
         val list = arrayListOf<T>()
 
-        CompletableFuture.runAsync {
-           val mappedList = internalCollection.find().map {
-                Serializers.deserialize(it.toJson(), type)!!
-            }.into(arrayListOf())
-
-            list.addAll(mappedList)
+        val mappedList = internalCollection.find().into(arrayListOf()).map {
+            Serializers.deserialize(it.toJson(), type)!!
         }
+
+        list.addAll(mappedList)
 
         return list
 

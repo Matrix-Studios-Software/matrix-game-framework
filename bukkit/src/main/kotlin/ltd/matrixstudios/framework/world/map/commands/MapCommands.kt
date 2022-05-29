@@ -1,14 +1,36 @@
 package ltd.matrixstudios.framework.world.map.commands
 
+import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
-import org.bukkit.command.CommandSender
+import ltd.matrixstudios.framework.menu.map.MapEditorMenu
+import ltd.matrixstudios.framework.util.Chat
+import ltd.matrixstudios.framework.world.map.Map
+import ltd.matrixstudios.framework.world.map.MapManager
+import org.bukkit.entity.Player
 
 @CommandAlias("map")
-class MapCommands {
+object MapCommands : BaseCommand() {
+
+    @Subcommand("create")
+    @CommandPermission("framework.map.admin")
+    fun create(sender: Player, @Name("name") name: String) {
+        if (MapManager.exists(name)) {
+            sender.sendMessage(Chat.format("&cMap already exists"))
+            return
+        }
+
+        val map = Map(name.toLowerCase(), name, null)
+
+        MapManager.save(map.id, map)
+        sender.sendMessage(Chat.format("&aCreated a map with the name &f$name"))
+    }
 
     @Subcommand("editor")
-    fun editor(sender: CommandSender) {
-
+    @CommandPermission("framework.map.admin")
+    fun editor(sender: Player) {
+        MapEditorMenu(sender).updateMenu()
     }
 }

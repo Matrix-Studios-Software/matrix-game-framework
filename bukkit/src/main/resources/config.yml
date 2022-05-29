@@ -1,0 +1,2 @@
+mongoURI: "mongodb://localhost:27017"
+jedisURI: "redis://172.18.0.1:6379/0"
