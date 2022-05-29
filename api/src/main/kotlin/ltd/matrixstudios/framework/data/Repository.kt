@@ -7,4 +7,6 @@ interface Repository<K, T> {
     fun findAll() : List<T>
 
     fun findById(id: K) : T?
+
+    fun exists(id: K) : Boolean
 }

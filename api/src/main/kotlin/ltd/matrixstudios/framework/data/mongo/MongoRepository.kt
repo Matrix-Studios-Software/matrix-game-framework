@@ -9,7 +9,7 @@ import ltd.matrixstudios.framework.data.serializers.Serializers
 import org.bson.Document
 import java.util.concurrent.CompletableFuture
 
-open class MongoRepository<K, T>(collectionName: String, var type: Class<T>) : Repository<K, T> {
+abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>) : Repository<K, T> {
 
     private val internalCollection: MongoCollection<Document> = MongoDetails.database.getCollection(collectionName)
 
@@ -44,5 +44,11 @@ open class MongoRepository<K, T>(collectionName: String, var type: Class<T>) : R
         val item = internalCollection.find(Filters.eq("_id", id)).first() ?: return null
 
         return Serializers.deserialize(item.toJson(), type)
+    }
+
+    override fun exists(id: K): Boolean {
+        val document = internalCollection.find(Filters.eq("_id", id)).first()
+
+        return document != null
     }
 }
