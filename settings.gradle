@@ -1,3 +1,4 @@
 rootProject.name = 'matrix-game-framework'
 include 'api'
+include 'bukkit'
 
