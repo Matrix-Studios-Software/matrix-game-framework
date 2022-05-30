@@ -14,9 +14,15 @@ object RedisDetails {
 
     lateinit var jedisResource: Jedis
 
+    lateinit var pubsubPool: JedisPool
+    lateinit var pubsubResource: Jedis
+
     fun use(uri: String) {
         this.uri = uri
         this.jedisPool = JedisPool(URI(uri))
         this.jedisResource = jedisPool.resource
+
+        this.pubsubPool = JedisPool(URI(uri))
+        this.pubsubResource = pubsubPool.resource
     }
 }

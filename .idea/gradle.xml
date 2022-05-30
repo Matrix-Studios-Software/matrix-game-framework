@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/bukkit" />
+            <option value="$PROJECT_DIR$/manager" />
           </set>
         </option>
       </GradleProjectSettings>

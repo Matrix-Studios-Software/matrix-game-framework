@@ -28,6 +28,6 @@ class MapEditorMenu(var opener: Player) : PaginatedMenu(18, opener) {
     }
 
     override fun getTitle(player: Player): String {
-        return "Edit a Map "
+        return "Edit a Map"
     }
 }

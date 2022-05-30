@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(":api")
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'ltd.matrixstudios.framework.FrameworkManager'
+        )
+    }
+}

@@ -5,8 +5,8 @@ import java.util.*
 
 class GameServer(
     var id: String,
-    var status: GameStatus,
     var lastUpdated: Long,
+    var online: Boolean,
     var currentlyPlaying: MutableList<UUID>,
     var quickId: String,
     var currentlyFull: Boolean
