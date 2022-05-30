@@ -7,6 +7,8 @@ import ltd.matrixstudios.framework.instance.GameServer
 import ltd.matrixstudios.framework.instance.GameServerService
 import ltd.matrixstudios.framework.menu.library.listener.MenuListener
 import ltd.matrixstudios.framework.servers.commands.ServerCommands
+import ltd.matrixstudios.framework.spectator.SpectatorListener
+import ltd.matrixstudios.framework.tasks.UpdateInstanceTask
 import ltd.matrixstudios.framework.world.map.commands.MapCommands
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
@@ -30,6 +32,8 @@ class FrameworkBukkit : JavaPlugin() {
 
         createAGame()
 
+        UpdateInstanceTask().runTaskTimerAsynchronously(this, 0L, 20L)
+
         val commandHandler = PaperCommandManager(this).apply {
             this.registerCommand(MapCommands)
             this.registerCommand(ServerCommands)
@@ -39,6 +43,7 @@ class FrameworkBukkit : JavaPlugin() {
 
     fun registerListeners() {
         server.pluginManager.registerEvents(MenuListener(), this)
+        server.pluginManager.registerEvents(SpectatorListener(), this)
     }
 
     fun createAGameServer() {

@@ -20,7 +20,8 @@ class GameServer(
         WAITING("&e", "Starting"),
         STARTED("&c", "Started"),
         ENDING("&c", "Ending"),
-        ERRORED("&4", "Errored")
+        ERRORED("&4", "Errored"),
+        VOTING("&d", "Voting")
 
     }
 

@@ -8,7 +8,8 @@ data class Game(
     var createdAt: Long,
     var startedAt: Long,
     var lastUpdated: Long,
-    var status: GameServer.GameStatus
+    var status: GameServer.GameStatus,
 ) {
+
 
 }
