@@ -1,0 +1,3 @@
+constants:
+  max-teams: 4
+  players-per-team: 1
