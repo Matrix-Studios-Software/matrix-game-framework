@@ -15,7 +15,7 @@ object BedwarsTeamDistributor {
         for (int in 0 until BedwarsConstants.MAX_TEAMS.minus(1)) {
             val colorTeam = ColorTeam.values()[int]
 
-            teams[colorTeam] = BedwarsTeam(UUID.randomUUID(), arrayListOf(), arrayListOf(), false, null, colorTeam)
+            teams[colorTeam] = BedwarsTeam(UUID.randomUUID(), arrayListOf(), arrayListOf(), false, null, null, colorTeam)
         }
     }
 

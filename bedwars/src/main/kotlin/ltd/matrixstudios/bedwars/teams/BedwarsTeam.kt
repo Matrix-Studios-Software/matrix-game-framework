@@ -11,5 +11,6 @@ data class BedwarsTeam(
     var aliveMembers: MutableList<UUID>,
     var full: Boolean,
     var bedLocation: Location?,
+    var generatorLocation: Location?,
     var teamColor: ColorTeam
 ) : AbstractTeam(uuid, teamMembers, aliveMembers)
