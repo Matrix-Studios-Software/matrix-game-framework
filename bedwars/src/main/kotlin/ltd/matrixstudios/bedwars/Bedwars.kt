@@ -14,14 +14,8 @@ class Bedwars : JavaPlugin() {
     override fun onEnable() {
         saveDefaultConfig()
         instance = this
+
+        BedwarsTeamDistributor.loadTeams()
     }
 
-    fun launchGame() {
-        val game = FrameworkBukkit.instance.currentGame
-
-        game.startedAt = System.currentTimeMillis()
-        game.status = GameServer.GameStatus.STARTED
-
-        BedwarsTeamDistributor.assignTeams()
-    }
 }

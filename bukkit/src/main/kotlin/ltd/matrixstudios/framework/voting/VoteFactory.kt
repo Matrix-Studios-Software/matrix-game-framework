@@ -29,8 +29,7 @@ object VoteFactory {
     fun startVoting() {
         val maps = arrayListOf<Map>()
 
-        val databaseMaps = MapManager.findAll()
-        databaseMaps.shuffled()
+        val databaseMaps = MapManager.findAll().shuffled()
 
         for (map in databaseMaps.stream().limit(3)) {
           maps.add(map)

@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 
 abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>) : Repository<K, T> {
 
-    private val internalCollection: MongoCollection<Document> = MongoDetails.database.getCollection(collectionName)
+    private val internalCollection = MongoDetails.database.getCollection(collectionName)
 
     override fun <T> save(key: K, value: T) {
         CompletableFuture.runAsync {
@@ -29,8 +29,12 @@ abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>)
     override fun findAll(): List<T> {
         val list = arrayListOf<T>()
 
-        val mappedList = internalCollection.find().into(arrayListOf()).map {
-            Serializers.deserialize(it.toJson(), type)!!
+        val mappedList = internalCollection.find()
+            .into(mutableListOf()).map {
+            Serializers.deserialize(
+                it.toJson(),
+                type
+            )!!
         }
 
         list.addAll(mappedList)
