@@ -1,5 +1,6 @@
 package ltd.matrixstudios.bedwars.countdowns
 
+import ltd.matrixstudios.bedwars.Bedwars
 import ltd.matrixstudios.framework.FrameworkBukkit
 import ltd.matrixstudios.framework.game.GameService
 import ltd.matrixstudios.framework.instance.GameServer
@@ -33,10 +34,12 @@ object VoteCountdown {
                     0 -> {
                         Bukkit.broadcastMessage(Chat.format("&8[&eVoting&8] &fVoting ends &cNow"))
 
+                        cancel()
                     }
                 }
+                seconds--
             }
 
-        }
+        }.runTaskTimer(Bedwars.instance, 0L, 19L)
     }
 }

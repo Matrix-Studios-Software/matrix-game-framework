@@ -15,7 +15,24 @@ object BedwarsTeamDistributor {
         for (int in 0 until BedwarsConstants.MAX_TEAMS.minus(1)) {
             val colorTeam = ColorTeam.values()[int]
 
-            teams[colorTeam] = BedwarsTeam(UUID.randomUUID(), arrayListOf(), arrayListOf(), false, null, null, colorTeam)
+            teams[colorTeam] = BedwarsTeam(false, null, null, null, colorTeam)
+        }
+    }
+
+    fun teleportAllTeamMembers() {
+        for (team in teams.values)
+        {
+            for (player in team.members)
+            {
+                val player = Bukkit.getPlayer(player)
+
+                if (player != null) {
+                    player.sendMessage(Chat.format("&6You are being teleported..."))
+                    player.teleport(team.spawnLocation)
+
+                    return
+                }
+            }
         }
     }
 
@@ -33,6 +50,6 @@ object BedwarsTeamDistributor {
             return
         }
 
-        randomTeam.teamMembers.add(player.uniqueId)
+        randomTeam.members.add(player.uniqueId)
     }
 }
