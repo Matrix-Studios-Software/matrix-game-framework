@@ -1,10 +1,14 @@
 package ltd.matrixstudios.bedwars.scoreboard
 
 import io.github.thatkawaiisam.assemble.AssembleAdapter
+import ltd.matrixstudios.bedwars.constants.BedwarsConstants
+import ltd.matrixstudios.bedwars.countdowns.VoteCountdown
+import ltd.matrixstudios.bedwars.util.TimeUtil
 import ltd.matrixstudios.framework.FrameworkBukkit
 import ltd.matrixstudios.framework.instance.GameServer
 import ltd.matrixstudios.framework.util.Chat
 import ltd.matrixstudios.framework.voting.VoteFactory
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 object BedwarsScoreboard : AssembleAdapter {
@@ -25,10 +29,16 @@ object BedwarsScoreboard : AssembleAdapter {
                     lines.add(Chat.format("&f${map.displayName} &7[${VoteFactory.getVotesForMap(map)}]"))
                 }
                 lines.add(" ")
-                lines.add("&aEnds In: &f")
+                lines.add(Chat.format("&aEnds In: &f${TimeUtil.formatIntoDetailedString(VoteCountdown.seconds)}s"))
+            }
+
+            GameServer.GameStatus.WAITING -> {
+                lines.add(Chat.format("&aPlayers: &f${Bukkit.getOnlinePlayers().size}/${BedwarsConstants.MAX_PLAYERS}"))
             }
         }
 
+        lines.add(" ")
+        lines.add(Chat.format("&7Matrix Studios"))
         lines.add(Chat.format("&7&m----------------------"))
 
         return lines

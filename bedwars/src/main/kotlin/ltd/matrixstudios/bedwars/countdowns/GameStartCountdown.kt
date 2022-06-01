@@ -38,7 +38,7 @@ object GameStartCountdown {
                         BedwarsTeamDistributor.assignTeams()
 
                         BedwarsTeamDistributor.teleportAllTeamMembers()
-                        
+
                         cancel()
                     }
 
