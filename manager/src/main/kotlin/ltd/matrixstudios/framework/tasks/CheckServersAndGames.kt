@@ -1,5 +1,6 @@
 package ltd.matrixstudios.framework.tasks
 
+import ltd.matrixstudios.framework.FrameworkManager
 import ltd.matrixstudios.framework.FrameworkShared
 import ltd.matrixstudios.framework.data.redis.RedisDetails
 import ltd.matrixstudios.framework.game.GameService
@@ -10,6 +11,7 @@ import java.util.concurrent.TimeUnit
 class CheckServersAndGames : Thread() {
 
     override fun run() {
+        FrameworkManager.instance.dockerClient.createContainerCmd("na-sg-1")
         for (server in GameServerService.findAll()) {
             if (System.currentTimeMillis() - server.lastUpdated >= TimeUnit.MINUTES.toMillis(1))
             {

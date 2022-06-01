@@ -20,7 +20,6 @@ object GameStartCountdown {
 
         GameService.save(game.id, game)
         object : BukkitRunnable() {
-
             override fun run() {
                 when (seconds) {
                     60 -> {
@@ -38,6 +37,8 @@ object GameStartCountdown {
                         BedwarsTeamDistributor.assignTeams()
 
                         BedwarsTeamDistributor.teleportAllTeamMembers()
+
+
 
                         cancel()
                     }

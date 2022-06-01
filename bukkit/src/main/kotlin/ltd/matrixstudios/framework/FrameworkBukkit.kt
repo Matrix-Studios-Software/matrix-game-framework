@@ -6,7 +6,6 @@ import ltd.matrixstudios.framework.game.GameService
 import ltd.matrixstudios.framework.instance.GameServer
 import ltd.matrixstudios.framework.instance.GameServerService
 import ltd.matrixstudios.framework.menu.library.listener.MenuListener
-import ltd.matrixstudios.framework.servers.commands.ServerCommands
 import ltd.matrixstudios.framework.spectator.SpectatorListener
 import ltd.matrixstudios.framework.tasks.UpdateInstanceTask
 import ltd.matrixstudios.framework.world.map.commands.MapCommands
@@ -36,7 +35,6 @@ class FrameworkBukkit : JavaPlugin() {
 
         val commandHandler = PaperCommandManager(this).apply {
             this.registerCommand(MapCommands)
-            this.registerCommand(ServerCommands)
         }
 
     }

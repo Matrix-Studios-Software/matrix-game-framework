@@ -34,6 +34,8 @@ object VoteCountdown {
                     0 -> {
                         Bukkit.broadcastMessage(Chat.format("&8[&eVoting&8] &fVoting ends &cNow"))
 
+                        GameStartCountdown.start()
+
                         cancel()
                     }
                 }
