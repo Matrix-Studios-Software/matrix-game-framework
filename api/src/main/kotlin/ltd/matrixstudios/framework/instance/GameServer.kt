@@ -8,6 +8,7 @@ class GameServer(
     var lastUpdated: Long,
     var online: Boolean,
     var currentlyPlaying: MutableList<UUID>,
+    var directory: String,
     var quickId: String,
     var currentlyFull: Boolean
 ) {
