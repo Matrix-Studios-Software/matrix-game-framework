@@ -51,6 +51,7 @@ class FrameworkBukkit : JavaPlugin() {
                 System.currentTimeMillis(),
                 true,
                 arrayListOf(),
+                config.getInt("server.port"),
                 config.getString("server.quickID"),
                 false
             )

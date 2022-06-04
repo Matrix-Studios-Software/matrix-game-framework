@@ -8,7 +8,7 @@ class GameServer(
     var lastUpdated: Long,
     var online: Boolean,
     var currentlyPlaying: MutableList<UUID>,
-    var directory: String,
+    var port: Int,
     var quickId: String,
     var currentlyFull: Boolean
 ) {
@@ -20,6 +20,7 @@ class GameServer(
     ) {
         WAITING("&e", "Starting"),
         STARTED("&c", "Started"),
+        DOCKING("&6", "Docking"),
         ENDING("&c", "Ending"),
         ERRORED("&4", "Errored"),
         VOTING("&d", "Voting")

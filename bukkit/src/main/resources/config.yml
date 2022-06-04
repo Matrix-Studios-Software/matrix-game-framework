@@ -4,3 +4,4 @@ jedisURI: "redis://172.18.0.1:6379/0"
 server:
   serverID: "na-sg-1"
   quickID: "nasg-1"
+  port: 25571
