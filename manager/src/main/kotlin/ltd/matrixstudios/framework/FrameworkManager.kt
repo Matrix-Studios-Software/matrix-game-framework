@@ -19,9 +19,7 @@ class FrameworkManager {
     init {
         Config.load()
 
-
         FrameworkShared.startup(Config.mongoURI!!, Config.redisURI!!)
-
 
         CheckServersAndGames().start()
 
