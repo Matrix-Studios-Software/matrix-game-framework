@@ -22,8 +22,6 @@ class MapEditorSettingsMenu(opener: Player, var map: Map) : PaginatedMenu(9, ope
             "&aSet Spawn Location",
             arrayListOf()
         ).setAction { player, i, clickType ->
-            println("azsd")
-            map.firstJoinLocation = player.location
             player.sendMessage(
                 Chat.format("&aUpdated the spawn location of ${map.displayName}"))
 

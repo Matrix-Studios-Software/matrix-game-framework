@@ -15,8 +15,8 @@ class MapEditorMenu(var opener: Player) : PaginatedMenu(18, opener) {
         var index = 0
 
         for (map in MapManager.findAll()) {
-            buttons[index++] = GenericButton(Material.WOOL,
-                5,
+            buttons[index++] = GenericButton(Material.ANVIL,
+                0,
                 "&a${map.displayName}",
                 arrayListOf()).setAction {
                     player, i, clickType ->

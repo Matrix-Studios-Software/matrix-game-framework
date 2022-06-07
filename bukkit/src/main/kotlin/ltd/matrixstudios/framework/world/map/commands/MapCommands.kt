@@ -22,7 +22,7 @@ object MapCommands : BaseCommand() {
             return
         }
 
-        val map = Map(name.toLowerCase(), name, null)
+        val map = Map(name.toLowerCase(), name)
 
         MapManager.save(map.id, map)
         sender.sendMessage(Chat.format("&aCreated a map with the name &f$name"))

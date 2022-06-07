@@ -14,16 +14,14 @@ abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>)
     private val internalCollection = MongoDetails.database.getCollection(collectionName)
 
     override fun <T> save(key: K, value: T) {
-        CompletableFuture.runAsync {
-            val parsed = Document.parse(Serializers.serialize(value))
+        val parsed = Document.parse(Serializers.serialize(value))
 
-            internalCollection.updateOne(
-                Filters.eq(
-                    "_id",
-                    key
-                ), Document("\$set", parsed), UpdateOptions().upsert(true)
-            )
-        }
+        internalCollection.updateOne(
+            Filters.eq(
+                "_id",
+                key
+            ), Document("\$set", parsed), UpdateOptions().upsert(true)
+        )
     }
 
     override fun findAll(): List<T> {
@@ -31,11 +29,11 @@ abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>)
 
         val mappedList = internalCollection.find()
             .into(mutableListOf()).map {
-            Serializers.deserialize(
-                it.toJson(),
-                type
-            )!!
-        }
+                Serializers.deserialize(
+                    it.toJson(),
+                    type
+                )!!
+            }
 
         list.addAll(mappedList)
 
