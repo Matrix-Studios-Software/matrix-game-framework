@@ -1,14 +1,20 @@
 package ltd.matrixstudios.framework
 
 import co.aikar.commands.PaperCommandManager
+import com.google.gson.GsonBuilder
+import com.google.gson.LongSerializationPolicy
+import com.google.gson.internal.GsonBuildConfig
+import ltd.matrixstudios.framework.data.serializers.Serializers
 import ltd.matrixstudios.framework.game.Game
 import ltd.matrixstudios.framework.game.GameService
 import ltd.matrixstudios.framework.instance.GameServer
 import ltd.matrixstudios.framework.instance.GameServerService
 import ltd.matrixstudios.framework.menu.library.listener.MenuListener
+import ltd.matrixstudios.framework.serialize.LocationSerializers
 import ltd.matrixstudios.framework.spectator.SpectatorListener
 import ltd.matrixstudios.framework.tasks.UpdateInstanceTask
 import ltd.matrixstudios.framework.world.map.commands.MapCommands
+import org.bukkit.Location
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -20,11 +26,20 @@ class FrameworkBukkit : JavaPlugin() {
 
     lateinit var currentGame: Game
 
+    var bukkitGson = GsonBuilder()
+        .serializeNulls()
+        .setPrettyPrinting()
+        .registerTypeAdapter(Location::class.java, LocationSerializers())
+        .setLongSerializationPolicy(LongSerializationPolicy.STRING)
+        .create()
+
     override fun onEnable() {
         saveDefaultConfig()
         instance = this
 
         FrameworkShared.startup(config.getString("mongoURI"), config.getString("jedisURI"))
+
+        Serializers.setCustomGSON(bukkitGson)
 
         registerListeners()
         createAGameServer()

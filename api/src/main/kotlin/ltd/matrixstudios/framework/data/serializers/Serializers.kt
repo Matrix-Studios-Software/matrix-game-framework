@@ -14,6 +14,10 @@ object Serializers {
         .setLongSerializationPolicy(LongSerializationPolicy.STRING)
         .create()
 
+    fun setCustomGSON(gson: Gson) {
+        this.gson = gson
+    }
+
     fun <T> serialize(item: T) : String {
         return gson.toJson(item)
     }
