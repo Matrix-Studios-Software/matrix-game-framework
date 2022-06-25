@@ -16,6 +16,8 @@ object VoteFactory {
 
     var votableMaps = arrayListOf<Map>()
 
+    lateinit var finalMap: Map
+
     fun hasVoted(uuid: UUID) : Boolean {
         return votes.containsKey(uuid)
     }
@@ -24,6 +26,21 @@ object VoteFactory {
         val mapvotes = votes.values.filter { it.id == map.id }
 
         return mapvotes.size
+    }
+
+    fun stopVoting() : Map {
+        val intMap = hashMapOf<Map, Int>()
+        for (map in votableMaps) {
+            val amountOfVotes = votes.values.filter { it == map }.size
+
+            intMap[map] = amountOfVotes
+        }
+
+        val map = intMap.entries.minByOrNull { it.value }!!.key
+
+        this.finalMap = map
+
+        return map
     }
 
     fun startVoting() {
