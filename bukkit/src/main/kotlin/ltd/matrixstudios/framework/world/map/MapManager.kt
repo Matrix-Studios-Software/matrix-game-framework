@@ -7,6 +7,8 @@ import org.bukkit.WorldCreator
 import org.bukkit.util.FileUtil
 import java.io.File
 import java.util.*
+import org.bukkit.Chunk
+import org.bukkit.ChunkSnapshot
 
 object MapManager : MongoRepository<String, Map>(
     "maps",

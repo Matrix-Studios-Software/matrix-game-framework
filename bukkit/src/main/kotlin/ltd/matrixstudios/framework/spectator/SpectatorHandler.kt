@@ -24,5 +24,11 @@ object SpectatorHandler {
         }.forEach {
             it.hidePlayer(player)
         }
+
+        Bukkit.getOnlinePlayers().filter {
+            spectators.contains(it.uniqueId)
+        }.forEach {
+            player.showPlayer(it)
+        }
     }
 }
