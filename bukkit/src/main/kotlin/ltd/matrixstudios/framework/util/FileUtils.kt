@@ -2,46 +2,77 @@ package ltd.matrixstudios.framework.util
 
 import java.io.File
 import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.StandardCopyOption
+import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 
 object FileUtils {
 
-    fun unzip(zipFilePath: String, destDir: String) {
-        val dir = File(destDir)
-        // create output directory if it doesn't exist
-        if (!dir.exists()) dir.mkdirs()
-        val fis: FileInputStream
-        //buffer for read and write data to file
-        val buffer = ByteArray(1024)
-        try {
-            fis = FileInputStream(zipFilePath)
-            val zis = ZipInputStream(fis)
-            var ze = zis.nextEntry
-            while (ze != null) {
-                val fileName = ze.name
-                val newFile = File(destDir + File.separator + fileName)
-                println("Unzipping to " + newFile.absolutePath)
-                //create directories for sub directories in zip
-                File(newFile.parent).mkdirs()
-                val fos = FileOutputStream(newFile)
-                var len: Int
-                while (zis.read(buffer).also { len = it } > 0) {
-                    fos.write(buffer, 0, len)
+    @Throws(IOException::class)
+    fun unzipFolder(source: Path, target: Path?) {
+        ZipInputStream(FileInputStream(source.toFile())).use { zis ->
+
+            // list files in zip
+            var zipEntry = zis.nextEntry
+            while (zipEntry != null) {
+                var isDirectory = false
+                // example 1.1
+                // some zip stored files and folders separately
+                // e.g data/
+                //     data/folder/
+                //     data/folder/file.txt
+                if (zipEntry.name.endsWith(File.separator)) {
+                    isDirectory = true
                 }
-                fos.close()
-                //close this ZipEntry
-                zis.closeEntry()
-                ze = zis.nextEntry
+                val newPath: Path = zipSlipProtect(zipEntry, target!!)!!
+                if (isDirectory) {
+                    Files.createDirectories(newPath)
+                } else {
+
+                    // example 1.2
+                    // some zip stored file path only, need create parent directories
+                    // e.g data/folder/file.txt
+                    if (newPath.getParent() != null) {
+                        if (Files.notExists(newPath.getParent())) {
+                            Files.createDirectories(newPath.getParent())
+                        }
+                    }
+
+                    // copy files, nio
+                    Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING)
+
+                    // copy files, classic
+                    /*try (FileOutputStream fos = new FileOutputStream(newPath.toFile())) {
+                    byte[] buffer = new byte[1024];
+                    int len;
+                    while ((len = zis.read(buffer)) > 0) {
+                        fos.write(buffer, 0, len);
+                    }
+                }*/
+                }
+                zipEntry = zis.nextEntry
             }
-            //close last ZipEntry
             zis.closeEntry()
-            zis.close()
-            fis.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
+    }
+
+    @Throws(IOException::class)
+    fun zipSlipProtect(zipEntry: ZipEntry, targetDir: Path): Path? {
+
+        // test zip slip vulnerability
+        // Path targetDirResolved = targetDir.resolve("../../" + zipEntry.getName());
+        val targetDirResolved = targetDir.resolve(zipEntry.name)
+
+        // make sure normalized file still has targetDir as its prefix
+        // else throws exception
+        val normalizePath = targetDirResolved.normalize()
+        if (!normalizePath.startsWith(targetDir)) {
+            throw IOException("Bad zip entry: " + zipEntry.name)
+        }
+        return normalizePath
     }
 }

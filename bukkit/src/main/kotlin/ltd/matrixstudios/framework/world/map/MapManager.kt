@@ -2,21 +2,21 @@ package ltd.matrixstudios.framework.world.map
 
 import ltd.matrixstudios.framework.data.mongo.MongoRepository
 import ltd.matrixstudios.framework.util.FileUtils
-import org.bukkit.Bukkit
-import org.bukkit.WorldCreator
+import org.bukkit.*
 import org.bukkit.util.FileUtil
 import java.io.File
 import java.util.*
-import org.bukkit.Chunk
-import org.bukkit.ChunkSnapshot
+import org.bukkit.entity.Player
+import java.nio.file.Path
+import kotlin.concurrent.thread
 
 object MapManager : MongoRepository<String, Map>(
     "maps",
     Map::class.java
 ) {
 
-    fun loadMap(map: Map) {
-        val worldName = "{map.displayName}-${UUID.randomUUID().toString().substring(4)}"
+    fun loadMap(map: Map, player: Player) {
+        val worldName = "${map.displayName}-${UUID.randomUUID().toString().substring(4)}"
         val worldFolder = File(worldName).absoluteFile
 
         worldFolder.mkdir()
@@ -24,16 +24,29 @@ object MapManager : MongoRepository<String, Map>(
         map.world = worldName
         map.worldFolders.add(worldName)
 
-        FileUtils.unzip(map.zippedWorldDirectory!!, worldFolder.absolutePath)
+        thread {
+            FileUtils.unzipFolder(File(map.zippedWorldDirectory!!).toPath(), worldFolder.toPath())
+        }
 
         val worldCreator = WorldCreator(worldFolder.name)
 
-        Bukkit.createWorld(worldCreator)
+        worldCreator.createWorld()
+
+        MapManager.save(map.id, map)
+
+
+        player.teleport(Location(Bukkit.getWorld(worldName), 0.0, 100.0, 0.0))
+
+
     }
 
     fun unloadMap(map: Map) {
         Bukkit.unloadWorld(map.world, false)
 
         File(map.world!!).delete()
+
+        map.worldFolders.remove(map.world)
+
+        MapManager.save(map.id, map)
     }
 }

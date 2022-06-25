@@ -33,4 +33,30 @@ object MapCommands : BaseCommand() {
     fun editor(sender: Player) {
         MapEditorMenu(sender).updateMenu()
     }
+
+    @Subcommand("load")
+    fun load(sender: Player, @Name("name") name: String) {
+        if (!MapManager.exists(name)) {
+            sender.sendMessage(Chat.format("&cMap doesnt exists"))
+            return
+        }
+
+        val map = MapManager.findById(name)
+
+        MapManager.loadMap(map!!, sender)
+        sender.sendMessage(Chat.format("&aLoaded a map with the name &f$name"))
+    }
+
+    @Subcommand("unload")
+    fun unload(sender: Player, @Name("name") name: String) {
+        if (!MapManager.exists(name)) {
+            sender.sendMessage(Chat.format("&cMap doesnt exists"))
+            return
+        }
+
+        val map = MapManager.findById(name)
+
+        MapManager.unloadMap(map!!)
+        sender.sendMessage(Chat.format("&aUnloaded a map with the name &f$name"))
+    }
 }
