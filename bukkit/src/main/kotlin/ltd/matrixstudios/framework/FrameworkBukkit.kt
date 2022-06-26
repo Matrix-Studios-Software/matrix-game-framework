@@ -14,8 +14,10 @@ import ltd.matrixstudios.framework.serialize.LocationSerializers
 import ltd.matrixstudios.framework.spectator.SpectatorListener
 import ltd.matrixstudios.framework.tasks.UpdateInstanceTask
 import ltd.matrixstudios.framework.world.map.commands.MapCommands
+import ltd.matrixstudios.framework.world.map.listener.WorldInitListener
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.event.world.WorldInitEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -58,6 +60,7 @@ class FrameworkBukkit : JavaPlugin() {
     fun registerListeners() {
         server.pluginManager.registerEvents(MenuListener(), this)
         server.pluginManager.registerEvents(SpectatorListener(), this)
+        server.pluginManager.registerEvents(WorldInitListener(), this)
     }
 
     fun createAGameServer() {

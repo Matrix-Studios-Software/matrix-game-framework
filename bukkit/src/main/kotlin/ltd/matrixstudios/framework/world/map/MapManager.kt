@@ -3,12 +3,12 @@ package ltd.matrixstudios.framework.world.map
 import ltd.matrixstudios.framework.data.mongo.MongoRepository
 import ltd.matrixstudios.framework.util.FileUtils
 import org.bukkit.*
-import org.bukkit.util.FileUtil
+import org.bukkit.entity.Player
+import org.bukkit.generator.ChunkGenerator
 import java.io.File
 import java.util.*
-import org.bukkit.entity.Player
-import java.nio.file.Path
 import kotlin.concurrent.thread
+
 
 object MapManager : MongoRepository<String, Map>(
     "maps",
@@ -30,7 +30,17 @@ object MapManager : MongoRepository<String, Map>(
 
         val worldCreator = WorldCreator(worldFolder.name)
 
-        worldCreator.createWorld()
+        worldCreator.generator(object : ChunkGenerator() {
+            override fun generate(world: World?, random: Random?, x: Int, z: Int): ByteArray? {
+                return ByteArray(32768) //Empty byte array
+            }
+        })
+
+        try {
+            Bukkit.getServer().createWorld(worldCreator)
+        } catch (e: Exception) {
+            return
+        }
 
         MapManager.save(map.id, map)
 
