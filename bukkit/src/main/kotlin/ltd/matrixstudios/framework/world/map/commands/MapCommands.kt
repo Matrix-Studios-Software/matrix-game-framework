@@ -35,6 +35,7 @@ object MapCommands : BaseCommand() {
     }
 
     @Subcommand("load")
+    @CommandPermission("framework.map.admin")
     fun load(sender: Player, @Name("name") name: String) {
         if (!MapManager.exists(name)) {
             sender.sendMessage(Chat.format("&cMap doesnt exists"))
@@ -48,6 +49,7 @@ object MapCommands : BaseCommand() {
     }
 
     @Subcommand("unload")
+    @CommandPermission("framework.map.admin")
     fun unload(sender: Player, @Name("name") name: String) {
         if (!MapManager.exists(name)) {
             sender.sendMessage(Chat.format("&cMap doesnt exists"))
