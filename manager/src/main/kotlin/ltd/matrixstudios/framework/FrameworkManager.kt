@@ -23,6 +23,8 @@ class FrameworkManager {
 
         CheckServersAndGames().start()
 
+        DeploymentManager.dock("na-sg-1", 25571)
+
     }
 
 

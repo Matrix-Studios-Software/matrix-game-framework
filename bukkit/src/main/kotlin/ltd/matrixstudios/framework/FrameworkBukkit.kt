@@ -1,6 +1,7 @@
 package ltd.matrixstudios.framework
 
 import co.aikar.commands.PaperCommandManager
+import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
 import com.google.gson.internal.GsonBuildConfig
@@ -13,12 +14,15 @@ import ltd.matrixstudios.framework.menu.library.listener.MenuListener
 import ltd.matrixstudios.framework.serialize.LocationSerializers
 import ltd.matrixstudios.framework.spectator.SpectatorListener
 import ltd.matrixstudios.framework.tasks.UpdateInstanceTask
+import ltd.matrixstudios.framework.voting.VoteFactory
+import ltd.matrixstudios.framework.world.map.MapManager
 import ltd.matrixstudios.framework.world.map.commands.MapCommands
 import ltd.matrixstudios.framework.world.map.listener.WorldInitListener
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.event.world.WorldInitEvent
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 import java.util.*
 
 class FrameworkBukkit : JavaPlugin() {
@@ -44,6 +48,26 @@ class FrameworkBukkit : JavaPlugin() {
 
         Serializers.setCustomGSON(bukkitGson)
 
+        MapManager.findAll().forEach {
+            val folders = it.worldFolders
+
+            for (world in folders)
+            {
+                val worldFolder = File(world).absoluteFile
+
+                if (worldFolder.exists())
+                {
+                    worldFolder.delete()
+                }
+
+                if (Bukkit.getServer().getWorld(world) != null)
+                {
+                    Bukkit.getServer().unloadWorld(world, false)
+                    println("Unloaded an unused world")
+                }
+            }
+        }
+
         registerListeners()
         createAGameServer()
 
@@ -56,6 +80,7 @@ class FrameworkBukkit : JavaPlugin() {
         }
 
     }
+
 
     fun registerListeners() {
         server.pluginManager.registerEvents(MenuListener(), this)

@@ -48,17 +48,4 @@ object MapCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&aLoaded a map with the name &f$name"))
     }
 
-    @Subcommand("unload")
-    @CommandPermission("framework.map.admin")
-    fun unload(sender: Player, @Name("name") name: String) {
-        if (!MapManager.exists(name)) {
-            sender.sendMessage(Chat.format("&cMap doesnt exists"))
-            return
-        }
-
-        val map = MapManager.findById(name)
-
-        MapManager.unloadMap(map!!)
-        sender.sendMessage(Chat.format("&aUnloaded a map with the name &f$name"))
-    }
 }

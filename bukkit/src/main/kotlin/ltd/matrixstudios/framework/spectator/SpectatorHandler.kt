@@ -16,7 +16,7 @@ object SpectatorHandler {
 
     fun handleSpectatorToggle(player: Player) {
         addSpectator(player)
-        player.gameMode = GameMode.CREATIVE
+        player.gameMode = GameMode.SURVIVAL
         player.sendMessage(Chat.format("&7&oYou have become a spectator"))
 
         Bukkit.getOnlinePlayers().filter {
@@ -30,5 +30,11 @@ object SpectatorHandler {
         }.forEach {
             player.showPlayer(it)
         }
+
+        player.allowFlight = true
+        player.isFlying = true
+        player.health = 20.0
+        player.foodLevel = 10
+        player.exp = 0f
     }
 }

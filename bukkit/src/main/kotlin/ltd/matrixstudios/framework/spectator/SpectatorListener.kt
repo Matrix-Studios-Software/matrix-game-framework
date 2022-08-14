@@ -4,6 +4,8 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
 class SpectatorListener : Listener {
@@ -39,5 +41,29 @@ class SpectatorListener : Listener {
         ) {
             event.isCancelled = true
         }
+    }
+
+    @EventHandler
+    fun damage(event: EntityDamageByEntityEvent)
+    {
+        val entity = event.entity
+
+        if (SpectatorHandler.spectators.contains(entity.uniqueId))
+        {
+            event.isCancelled = true
+        }
+
+    }
+
+    @EventHandler
+    fun damage2(event: EntityDamageEvent)
+    {
+        val entity = event.entity
+
+        if (SpectatorHandler.spectators.contains(entity.uniqueId))
+        {
+            event.isCancelled = true
+        }
+
     }
 }

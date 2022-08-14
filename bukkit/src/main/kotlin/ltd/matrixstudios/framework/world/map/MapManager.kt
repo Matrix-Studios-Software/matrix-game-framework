@@ -49,14 +49,4 @@ object MapManager : MongoRepository<String, Map>(
 
 
     }
-
-    fun unloadMap(map: Map) {
-        Bukkit.unloadWorld(map.world, false)
-
-        File(map.world!!).delete()
-
-        map.worldFolders.remove(map.world)
-
-        MapManager.save(map.id, map)
-    }
 }
