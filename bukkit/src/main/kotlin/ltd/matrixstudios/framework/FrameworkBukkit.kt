@@ -14,6 +14,7 @@ import ltd.matrixstudios.framework.menu.library.listener.MenuListener
 import ltd.matrixstudios.framework.serialize.LocationSerializers
 import ltd.matrixstudios.framework.spectator.SpectatorListener
 import ltd.matrixstudios.framework.tasks.UpdateInstanceTask
+import ltd.matrixstudios.framework.util.FileUtils
 import ltd.matrixstudios.framework.voting.VoteFactory
 import ltd.matrixstudios.framework.world.map.MapManager
 import ltd.matrixstudios.framework.world.map.commands.MapCommands
@@ -53,19 +54,14 @@ class FrameworkBukkit : JavaPlugin() {
 
             for (world in folders)
             {
-                val worldFolder = File(world)
-
-                if (Bukkit.getServer().getWorld(world) != null)
+                if (Bukkit.getWorld(world) != null)
                 {
                     Bukkit.getServer().unloadWorld(world, false)
-                    println("Unloaded an unused world")
                 }
 
-                if (worldFolder.exists())
-                {
-                    worldFolder.delete()
-                    println("deleted world")
-                }
+                org.apache.commons.io.FileUtils.deleteDirectory(File(world).absoluteFile)
+
+                it.worldFolders.remove(world)
             }
         }
 
