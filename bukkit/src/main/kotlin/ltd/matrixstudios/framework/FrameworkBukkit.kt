@@ -53,17 +53,18 @@ class FrameworkBukkit : JavaPlugin() {
 
             for (world in folders)
             {
-                val worldFolder = File(world).absoluteFile
-
-                if (worldFolder.exists())
-                {
-                    worldFolder.delete()
-                }
+                val worldFolder = File(world)
 
                 if (Bukkit.getServer().getWorld(world) != null)
                 {
                     Bukkit.getServer().unloadWorld(world, false)
                     println("Unloaded an unused world")
+                }
+
+                if (worldFolder.exists())
+                {
+                    worldFolder.delete()
+                    println("deleted world")
                 }
             }
         }
