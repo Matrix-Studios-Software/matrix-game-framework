@@ -44,7 +44,7 @@ object MapCommands : BaseCommand() {
 
         val map = MapManager.findById(name)
 
-        MapManager.loadMap(map!!, sender)
+        MapManager.loadMap(map!!)
         sender.sendMessage(Chat.format("&aLoaded a map with the name &f$name"))
     }
 

@@ -15,7 +15,7 @@ object MapManager : MongoRepository<String, Map>(
     Map::class.java
 ) {
 
-    fun loadMap(map: Map, player: Player) {
+    fun loadMap(map: Map) {
         val worldName = "${map.displayName}-${UUID.randomUUID().toString().substring(4)}"
         val worldFolder = File(worldName).absoluteFile
 
@@ -43,9 +43,6 @@ object MapManager : MongoRepository<String, Map>(
         }
 
         MapManager.save(map.id, map)
-
-
-        player.teleport(Location(Bukkit.getWorld(worldName), 0.0, 100.0, 0.0))
 
 
     }
