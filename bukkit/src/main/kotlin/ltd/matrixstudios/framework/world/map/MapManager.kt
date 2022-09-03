@@ -24,23 +24,12 @@ object MapManager : MongoRepository<String, Map>(
         map.world = worldName
         map.worldFolders.add(worldName)
 
+
         thread {
-            FileUtils.unzipFolder(File(map.zippedWorldDirectory!!).toPath(), worldFolder.toPath())
+            org.apache.commons.io.FileUtils.copyDirectory(worldFolder ,File("${Bukkit.getServer().worldContainer.path}/${map.id}"))
         }
 
-        val worldCreator = WorldCreator(worldFolder.name)
-
-        worldCreator.generator(object : ChunkGenerator() {
-            override fun generate(world: World?, random: Random?, x: Int, z: Int): ByteArray? {
-                return ByteArray(32768) //Empty byte array
-            }
-        })
-
-        try {
-            Bukkit.getServer().createWorld(worldCreator)
-        } catch (e: Exception) {
-            return
-        }
+        val world = Bukkit.createWorld(WorldCreator.name(worldName))
 
         MapManager.save(map.id, map)
 
