@@ -25,6 +25,11 @@ class MapEditorSettingsMenu(opener: Player, var map: Map) : PaginatedMenu(9, ope
             player.sendMessage(
                 Chat.format("&aUpdated the spawn location of ${map.displayName}"))
 
+            map.x = player.location.x.toInt()
+            map.y = player.location.y.toInt()
+            map.z = player.location.z.toInt()
+
+
             MapManager.save(map.id, map)
         }
 

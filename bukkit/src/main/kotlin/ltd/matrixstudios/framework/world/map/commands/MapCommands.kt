@@ -22,7 +22,7 @@ object MapCommands : BaseCommand() {
             return
         }
 
-        val map = Map(name.toLowerCase(), name, null, arrayListOf(), "/home/kira/Games/SG/na-sg-1/Classic.zip")
+        val map = Map(name.toLowerCase(), name, null, 0, 100, 0, arrayListOf(), "/home/kira/Games/SG/na-sg-1/Classic.zip")
 
         MapManager.save(map.id, map)
         sender.sendMessage(Chat.format("&aCreated a map with the name &f$name"))

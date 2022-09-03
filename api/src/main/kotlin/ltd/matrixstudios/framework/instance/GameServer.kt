@@ -10,6 +10,7 @@ class GameServer(
     var currentlyPlaying: MutableList<UUID>,
     var port: Int,
     var quickId: String,
+    var gamemode: String,
     var currentlyFull: Boolean
 ) {
 

@@ -22,9 +22,6 @@ class FrameworkManager {
         FrameworkShared.startup(Config.mongoURI!!, Config.redisURI!!)
 
         CheckServersAndGames().start()
-
-        DeploymentManager.dock("na-sg-1", 25571)
-
     }
 
 
