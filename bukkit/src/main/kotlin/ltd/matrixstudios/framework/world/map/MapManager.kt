@@ -24,15 +24,27 @@ object MapManager : MongoRepository<String, Map>(
         map.world = worldName
         map.worldFolders.add(worldName)
 
-
-        thread {
-            org.apache.commons.io.FileUtils.copyDirectory(worldFolder ,File("${Bukkit.getServer().worldContainer.path}/${map.id}"))
+        try {
+            thread {
+                org.apache.commons.io.FileUtils.copyDirectory(
+                    File("${Bukkit.getServer().worldContainer.path}/${map.id}"),
+                        worldFolder
+                )
+            }
+        } catch (e: Exception)
+        {
+            println("Issue loading map.")
         }
 
-        val world = Bukkit.createWorld(WorldCreator.name(worldName))
+
+        try {
+            val world = Bukkit.createWorld(WorldCreator.name(worldName))
+        } catch (e: Exception)
+        {
+            println("Issue creating world.")
+        }
+
 
         MapManager.save(map.id, map)
-
-
     }
 }
