@@ -19,7 +19,7 @@ abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>)
         internalCollection.updateOne(
             Filters.eq(
                 "_id",
-                key
+                key.toString()
             ), Document("\$set", parsed), UpdateOptions().upsert(true)
         )
     }
@@ -42,13 +42,13 @@ abstract class MongoRepository<K, T>(collectionName: String, var type: Class<T>)
     }
 
     override fun findById(id: K): T? {
-        val item = internalCollection.find(Filters.eq("_id", id)).first() ?: return null
+        val item = internalCollection.find(Filters.eq("_id", id.toString())).first() ?: return null
 
         return Serializers.deserialize(item.toJson(), type)
     }
 
     override fun exists(id: K): Boolean {
-        val document = internalCollection.find(Filters.eq("_id", id)).first()
+        val document = internalCollection.find(Filters.eq("_id", id.toString())).first()
 
         return document != null
     }
